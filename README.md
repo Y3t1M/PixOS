@@ -57,5 +57,3 @@ PixOS/ ├── fonts/ │ └── PressStart2P-Regular.ttf ├── lib/ �
 - No internet needed
 - Local gif.js library
 
-## License
-MIT License
