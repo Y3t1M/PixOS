@@ -30,6 +30,7 @@ class PixelEditor {
         // Initialize canvas with default size
         this.setCanvasSize(32);
         this.setupEventListeners();
+        this.setupExportEventListeners();
     }
 
     initializeCanvas() {
@@ -99,6 +100,57 @@ class PixelEditor {
                 this.playAnimation();
             }
         });
+    }
+
+    setupExportEventListeners() {
+        document.getElementById('exportImage').addEventListener('click', () => this.exportImage());
+        document.getElementById('exportGif').addEventListener('click', () => this.exportAnimation());
+    }
+
+    exportImage() {
+        // Save current frame state
+        const link = document.createElement('a');
+        link.download = 'pixos-export.png';
+        link.href = this.canvas.toDataURL('image/png');
+        link.click();
+    }
+
+    async exportAnimation() {
+        if (this.frames.length <= 1) {
+            alert('Add more frames to export animation!');
+            return;
+        }
+
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = this.canvas.width;
+        tempCanvas.height = this.canvas.height;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        // Create GIF using gif.js library
+        const gif = new GIF({
+            workers: 2,
+            quality: 10,
+            width: this.canvas.width,
+            height: this.canvas.height
+        });
+
+        // Add each frame to the GIF
+        this.frames.forEach(frame => {
+            tempCtx.putImageData(frame, 0, 0);
+            gif.addFrame(tempCanvas, {delay: 1000 / this.fps});
+        });
+
+        // Render and download GIF
+        gif.on('finished', blob => {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = 'pixos-animation.gif';
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        });
+
+        gif.render();
     }
 
     setTool(tool) {
