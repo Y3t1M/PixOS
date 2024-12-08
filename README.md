@@ -1,63 +1,61 @@
 # PixOS - Pixel Art & Animation Editor
 
-PixOS is a retro-styled web-based pixel art editor with animation capabilities, designed with a nostalgic NES-inspired interface.
+A retro-styled web-based pixel art editor with animation capabilities. Works completely offline!
 
 ## Features
 
 ### Drawing Tools
-- Brush tool for pixel-by-pixel drawing
-- Eraser tool for removing pixels
-- Fill tool for flooding areas with color
-- Color picker for selecting custom colors
+- Brush, Eraser, Fill tools
+- Color picker
 - Undo/Redo functionality
+- Grid overlay
+- Zoom controls
 
 ### Canvas Options
-- Adjustable canvas sizes (16x16, 32x32, 64x64, 128x128)
-- Zoom controls for detailed editing
-- Grid overlay for precise pixel placement
+- Multiple sizes (16x16 to 128x128)
 - Clear canvas function
+- Grid overlay toggle
 
 ### Animation Features
 - Multi-frame animation support
-- Frame management (add, duplicate, delete)
-- Animation playback controls (play, pause)
-- Adjustable FPS (frames per second)
-- Loop animation toggle
-- Onion skinning for frame reference
+- Frame controls (add, duplicate, delete)
+- Playback controls
+- Adjustable FPS
+- Loop toggle
+- Onion skinning
 
-## Getting Started
+### Export Options
+- Export single frames as PNG
+- Export animations as GIF
 
-1. Clone the repository
-2. Open `PixOS.html` in a modern web browser
-3. Start creating pixel art!
+## Setup
 
-## Requirements
-
-- Modern web browser with HTML5 canvas support
-- Internet connection (for loading the Press Start 2P font)
-
-## File Structure
-
-- `PixOS.html` - Main HTML file
-- `styles.css` - CSS styling and layout
-- `script.js` - JavaScript logic and functionality
-
+1. Download the project files
+2. Download gif.js library (https://github.com/jnordberg/gif.js)
+3. Place in project structure:
+PixOS/ ├── fonts/ │ └── PressStart2P-Regular.ttf ├── lib/ │ └── gif.js ├── PixOS.html ├── styles.css └── script.js
 ## Usage
 
-1. Select a tool from the toolbar (Brush, Eraser, or Fill)
-2. Choose a color using the color picker
-3. Draw on the canvas
-4. Use the animation panel to create multiple frames
-5. Preview your animation using the playback controls
+### Basic Drawing
+1. Select tool (Brush/Eraser/Fill)
+2. Choose color
+3. Draw on canvas
 
-## Keyboard Shortcuts
+### Animation
+1. Create frames using 'New Frame'
+2. Set FPS (1-60)
+3. Use Play/Pause to preview
+4. Toggle Loop ON/OFF as needed
+5. Use Onion Skin for reference
 
-- None currently implemented (future feature)
+### Exporting
+- Single frame: Click 'Export PNG'
+- Animation: Click 'Export GIF'
 
-## Contributing
-
-Feel free to submit issues and pull requests.
+## Requirements
+- Modern web browser
+- No internet needed
+- Local gif.js library
 
 ## License
-
-This project is open source and available under the MIT License.
+MIT License
