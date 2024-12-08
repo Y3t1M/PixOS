@@ -33,7 +33,17 @@ A retro-styled web-based pixel art editor with animation capabilities. Works com
 1. Download the project files
 2. Download gif.js library (https://github.com/jnordberg/gif.js)
 3. Place in project structure:
-PixOS/ ├── fonts/ │ └── PressStart2P-Regular.ttf ├── lib/ │ └── gif.js ├── PixOS.html ├── styles.css └── script.js
+PixOS/
+│
+├── fonts/                 
+│   └── PressStart2P-Regular.ttf  
+├── lib/
+│   └── gif.js                   
+│
+├── PixOS.html                   
+├── styles.css                   
+└── script.js                    
+
 ## Usage
 
 ### Basic Drawing
