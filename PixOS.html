@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PixOS Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="toolbar">
+            <div class="tool-group">
+                <button id="brush" class="active">Brush</button>
+                <button id="eraser">Eraser</button>
+                <button id="fill">Fill</button>
+            </div>
+            <input type="color" id="colorPicker" value="#000000">
+            <button id="clearCanvas">Clear</button>
+            <div class="tool-group">
+                <button id="undo">Undo</button>
+                <button id="redo">Redo</button>
+            </div>
+            <div class="tool-group">
+                <select id="canvasSize">
+                    <option value="16">16x16</option>
+                    <option value="32" selected>32x32</option>
+                    <option value="64">64x64</option>
+                    <option value="128">128x128</option>
+                </select>
+                <button id="zoomIn">Zoom +</button>
+                <button id="zoomOut">Zoom -</button>
+            </div>
+        </div>
+        <div class="canvas-container">
+            <canvas id="pixelCanvas" width="32" height="32"></canvas>
+            <canvas id="gridOverlay"></canvas>
+        </div>
+        <div class="animation-panel">
+            <div class="toolbar">
+                <div class="tool-group">
+                    <button id="newFrame">New Frame</button>
+                    <button id="duplicateFrame">Duplicate</button>
+                    <button id="deleteFrame">Delete</button>
+                </div>
+                <div class="tool-group">
+                    <button id="playAnimation" class="inactive">Play</button>
+                    <button id="pauseAnimation" class="active">Pause</button>
+                    <button id="loopAnimation" class="active">Loop ON</button>
+                </div>
+                <div class="tool-group">
+                    <label>FPS:</label>
+                    <input type="number" id="fpsInput" value="12" min="1" max="60">
+                    <button id="onionSkin">Onion OFF</button>
+                </div>
+            </div>
+            <div class="timeline">
+                <div id="framesContainer" class="frames-container"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+}
+
+body {
+    background-color: #202020;
+    color: #fff;
+}
+
+.container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background: #242424;
+    border-radius: 0;
+    border: 4px solid #fff;
+    box-shadow: 4px 4px 0 #000;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tool-group {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 8px 16px;
+    cursor: pointer;
+    background: #ca0000;
+    color: white;
+    border: 4px solid #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0 #000;
+    transition: all 0.1s;
+}
+
+button:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 #000;
+}
+
+button.active {
+    background: #0000ca;
+    transform: translate(4px, 4px);
+    box-shadow: none;
+}
+
+input[type="color"] {
+    width: 60px;
+    height: 40px;
+    border: 4px solid #fff;
+    background: #242424;
+    box-shadow: 4px 4px 0 #000;
+    cursor: pointer;
+}
+
+select {
+    padding: 8px 16px;
+    background: #242424;
+    color: white;
+    border: 4px solid #fff;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    box-shadow: 4px 4px 0 #000;
+    cursor: pointer;
+}
+
+.canvas-container {
+    position: relative;
+    border: 4px solid #fff;
+    background: #242424;
+    padding: 20px;
+    box-shadow: 8px 8px 0 #000;
+    width: fit-content;
+    overflow: auto;
+    max-width: 90vw;
+    max-height: 80vh;
+}
+
+#pixelCanvas {
+    display: block;
+    background: white;
+    image-rendering: pixelated;
+    border: 2px solid #000;
+}
+
+.canvas-container::before {
+    display: none;
+}
+
+/* Add new grid overlay */
+#gridOverlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* NES-style title */
+.container::before {
+    content: "PixOS";
+    display: block;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 4px 4px 0 #000;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.animation-panel {
+    width: 100%;
+    background: #242424;
+    border: 4px solid #fff;
+    box-shadow: 4px 4px 0 #000;
+    padding: 10px;
+}
+
+.timeline {
+    margin-top: 10px;
+    padding: 10px;
+    background: #1a1a1a;
+    border: 4px solid #fff;
+    height: 120px;
+    overflow-x: auto;
+    position: relative;
+}
+
+.frames-container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    min-height: 80px;
+}
+
+.frame-preview {
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    border: 4px solid #fff;
+    box-shadow: 4px 4px 0 #000;
+    cursor: pointer;
+    image-rendering: pixelated;
+}
+
+.frame-preview.selected {
+    border-color: #0000ca;
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 #000;
+}
+
+.frame-preview.onion {
+    opacity: 0.5;
+}
+
+#fpsInput {
+    width: 60px;
+    padding: 8px;
+    background: #242424;
+    color: white;
+    border: 4px solid #fff;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+}
+
+label {
+    font-size: 12px;
+    line-height: 40px;
+}
+
+/* Animation control buttons */
+#playAnimation.active {
+    background: #00ca00; /* Green for play */
+}
+
+#pauseAnimation.active {
+    background: #ca7500; /* Orange for pause */
+}
+
+#loopAnimation.active {
+    background: #00caca; /* Cyan for loop */
+}
+
+#onionSkin.active {
+    background: #ca00ca; /* Purple for onion skin */
+}
+
+/* Make inactive animation controls more obvious */
+#playAnimation.inactive,
+#pauseAnimation.inactive {
+    background: #4a4a4a;
+    opacity: 0.7;
+}
