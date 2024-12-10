@@ -31,6 +31,7 @@ class PixelEditor {
         this.setCanvasSize(32);
         this.setupEventListeners();
         this.setupExportEventListeners();
+        this.setupWindowControlEventListeners();
     }
 
     initializeCanvas() {
@@ -105,6 +106,32 @@ class PixelEditor {
     setupExportEventListeners() {
         document.getElementById('exportImage').addEventListener('click', () => this.exportImage());
         document.getElementById('exportGif').addEventListener('click', () => this.exportAnimation());
+    }
+
+    setupWindowControlEventListeners() {
+        // Open PixOS Window
+        document.getElementById('openPixOS').addEventListener('click', () => {
+            const pixosWindow = document.getElementById('pixos-window');
+            pixosWindow.classList.add('active');
+        });
+
+        // Minimize PixOS Window
+        document.getElementById('minimizePixOS').addEventListener('click', () => {
+            const pixosWindow = document.getElementById('pixos-window');
+            pixosWindow.classList.toggle('minimized');
+        });
+
+        // Maximize PixOS Window
+        document.getElementById('maximizePixOS').addEventListener('click', () => {
+            const pixosWindow = document.getElementById('pixos-window');
+            pixosWindow.classList.toggle('maximized');
+        });
+
+        // Close PixOS Window
+        document.getElementById('closePixOS').addEventListener('click', () => {
+            const pixosWindow = document.getElementById('pixos-window');
+            pixosWindow.classList.remove('active');
+        });
     }
 
     exportImage() {
