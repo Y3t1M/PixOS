@@ -1,225 +1,269 @@
-@font-face {
-    font-family: 'Press Start 2P';
-    src: url('fonts/PressStart2P-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+﻿/* ================================================================
+   PixOS/styles.css — Windows 95 Paint-style Pixel Art Studio
+   ================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --face: #c0c0c0;
+  --lt:   #ffffff;
+  --dk:   #808080;
+  --ddk:  #404040;
+  --navy: #000080;
+  --sel:  rgba(0,0,128,0.3);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Press Start 2P', cursive;
+html, body {
+  background: var(--face);
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-size: 11px;
+  overflow: hidden;
+  height: 100%; width: 100%;
+  color: #000;
 }
 
-body {
-    background-color: #f0eacd;
-    color: #000000;
+/* ── App Shell ─────────────────────────────── */
+.pixos-shell {
+  display: flex; flex-direction: column;
+  height: 100%;
+  background: var(--face);
 }
 
-.container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    max-width: 800px;
-    margin: 0 auto;
+/* ── Menubar ───────────────────────────────── */
+.pixos-menu {
+  display: flex;
+  background: var(--face);
+  border-bottom: 1px solid var(--dk);
+  padding: 1px 2px; flex-shrink: 0;
+}
+.pixos-menu-item {
+  padding: 2px 8px; cursor: pointer; font-size: 11px;
+  border: 1px solid transparent; white-space: nowrap;
+}
+.pixos-menu-item:hover {
+  background: var(--navy); color: #fff;
+  border-color: var(--lt) var(--ddk) var(--ddk) var(--lt);
 }
 
-.toolbar {
-    display: flex;
-    gap: 10px;
-    padding: 15px;
-    background: #e0d6b9; /* Slightly darker tan */
-    border: 2px solid #808080;
-    box-shadow: 2px 2px 0 #000;
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
+/* ── Toolbar ───────────────────────────────── */
+.pixos-toolbar {
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+  padding: 4px 6px;
+  background: var(--face);
+  border-bottom: 2px solid;
+  border-color: var(--dk) var(--lt) var(--lt) var(--dk);
+  flex-shrink: 0;
+}
+.toolbar-group {
+  display: flex; align-items: center; gap: 2px;
+  padding-right: 6px; margin-right: 4px;
+  border-right: 1px solid var(--dk);
+}
+.toolbar-group:last-child { border-right: none; }
+
+/* ── W95 buttons ───────────────────────────── */
+.w95-btn {
+  padding: 2px 10px; cursor: pointer; font-size: 11px;
+  background: var(--face); color: #000;
+  border: 1px solid;
+  border-color: var(--lt) var(--ddk) var(--ddk) var(--lt);
+  box-shadow: inset -1px -1px 0 var(--dk);
+  font-family: inherit; white-space: nowrap;
+  min-width: auto;
+}
+.w95-btn:active, .w95-btn.active {
+  border-color: var(--ddk) var(--lt) var(--lt) var(--ddk);
+  box-shadow: inset 1px 1px 0 var(--dk);
+  transform: translate(1px,1px);
+}
+.w95-btn:hover { filter: brightness(0.97); }
+.w95-btn.active { background: #b0b0b0; font-weight: 700; }
+
+/* Color input */
+.color-input-wrap {
+  display: flex; align-items: center; gap: 4px;
+}
+.color-input-wrap label { font-size: 10px; }
+#colorPicker {
+  width: 32px; height: 24px; padding: 0;
+  border: 1px solid;
+  border-color: var(--dk) var(--lt) var(--lt) var(--dk);
+  cursor: pointer; background: none;
 }
 
-.tool-group {
-    display: flex;
-    gap: 10px;
+/* Select input */
+.w95-select {
+  padding: 1px 4px; font-size: 11px; font-family: inherit;
+  background: var(--lt); color: #000;
+  border: 1px solid;
+  border-color: var(--dk) var(--lt) var(--lt) var(--dk);
+  box-shadow: inset 1px 1px 0 var(--ddk);
+  cursor: pointer;
 }
 
-button {
-    padding: 8px 16px;
-    cursor: pointer;
-    background: #ca0000;
-    color: white;
-    border: 4px solid #fff;
-    font-size: 12px;
-    text-transform: uppercase;
-    box-shadow: 4px 4px 0 #000;
-    transition: all 0.1s;
+/* Number input */
+.w95-input {
+  width: 48px; padding: 1px 4px; font-size: 11px; font-family: inherit;
+  background: var(--lt); color: #000;
+  border: 1px solid;
+  border-color: var(--dk) var(--lt) var(--lt) var(--dk);
+  box-shadow: inset 1px 1px 0 var(--dk);
+  outline: none;
 }
 
-button:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 #000;
+/* ── Main workspace ────────────────────────── */
+.pixos-workspace {
+  display: flex; flex: 1; overflow: hidden;
 }
 
-button.active {
-    background: #0000ca;
-    transform: translate(4px, 4px);
-    box-shadow: none;
+/* ── Left: Tool palette ────────────────────── */
+.tool-palette {
+  width: 44px; flex-shrink: 0;
+  background: var(--face);
+  border-right: 2px solid;
+  border-color: var(--dk) var(--lt) var(--lt) var(--dk);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 2px;
+  padding: 6px 4px;
+}
+.tool-btn {
+  width: 32px; height: 32px; cursor: pointer;
+  background: var(--face); border: 1px solid;
+  border-color: var(--lt) var(--ddk) var(--ddk) var(--lt);
+  box-shadow: inset -1px -1px 0 var(--dk);
+  font-size: 16px; display: flex; align-items: center; justify-content: center;
+  border-radius: 0; padding: 0;
+}
+.tool-btn:active, .tool-btn.active {
+  border-color: var(--ddk) var(--lt) var(--lt) var(--ddk);
+  box-shadow: inset 1px 1px 0 var(--dk);
+  background: #b0b0b0; transform: translate(1px,1px);
+}
+.tool-btn.active { background: #a8a8a8; }
+.tool-palette-sep {
+  width: 28px; height: 1px; background: var(--dk);
+  margin: 2px 0;
 }
 
-input[type="color"] {
-    width: 60px;
-    height: 40px;
-    border: 4px solid #fff;
-    background: #242424;
-    box-shadow: 4px 4px 0 #000;
-    cursor: pointer;
+/* ── Center: canvas area ───────────────────── */
+.canvas-area {
+  flex: 1; overflow: auto;
+  background: repeating-conic-gradient(#909090 0% 25%, #b0b0b0 0% 50%)
+              0 0 / 16px 16px;
+  display: flex; align-items: flex-start; justify-content: flex-start;
+  padding: 12px;
 }
-
-select {
-    padding: 8px 16px;
-    background: #242424;
-    color: white;
-    border: 4px solid #fff;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 12px;
-    box-shadow: 4px 4px 0 #000;
-    cursor: pointer;
+.canvas-frame {
+  position: relative;
+  border: 2px solid;
+  border-color: var(--dk) var(--lt) var(--lt) var(--dk);
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+  flex-shrink: 0; user-select: none;
 }
-
-.canvas-container {
-    position: relative;
-    border: 2px solid #808080;
-    background: #e0d6b9; /* Slightly darker tan */
-    padding: 20px;
-    box-shadow: 8px 8px 0 #000;
-    width: fit-content;
-    overflow: auto;
-    max-width: 90vw;
-    max-height: 80vh;
-}
-
 #pixelCanvas {
-    display: block;
-    background: white;
-    image-rendering: pixelated;
-    border: 2px solid #000;
+  display: block; background: white;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+  cursor: crosshair;
 }
-
-.canvas-container::before {
-    display: none;
-}
-
-/* Add new grid overlay */
 #gridOverlay {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    pointer-events: none;
-    z-index: 1;
+  position: absolute; top: 0; left: 0;
+  pointer-events: none; z-index: 1;
+  image-rendering: pixelated;
 }
 
-/* NES-style title */
-.container::before {
-    content: "PixOS";
-    display: block;
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 20px;
-    text-shadow: 4px 4px 0 #000;
-    color: #fff;
-    letter-spacing: 2px;
+/* ── Right: color palette ──────────────────── */
+.color-palette {
+  width: 52px; flex-shrink: 0;
+  background: var(--face);
+  border-left: 2px solid;
+  border-color: var(--lt) var(--dk) var(--dk) var(--lt);
+  display: flex; flex-direction: column;
+  align-items: center; padding: 6px 4px; gap: 6px;
+}
+.palette-title {
+  font-size: 9px; color: var(--navy); font-weight: 700;
+  text-align: center;
+}
+.swatches {
+  display: grid; grid-template-columns: repeat(2, 20px);
+  gap: 2px;
+}
+.swatch {
+  width: 20px; height: 20px; cursor: pointer;
+  border: 1px solid;
+  border-color: var(--lt) var(--ddk) var(--ddk) var(--lt);
+  box-shadow: inset -1px -1px 0 var(--dk);
+}
+.swatch:hover { transform: scale(1.15); z-index: 1; position: relative; }
+.swatch.selected-fg {
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px #000;
 }
 
+/* Current color preview */
+.color-preview {
+  display: flex; flex-direction: column; gap: 2px; align-items: center;
+}
+.color-preview .preview-label { font-size: 8px; color: #666; }
+.fg-preview, .bg-preview {
+  width: 36px; height: 20px;
+  border: 1px solid; border-color: var(--dk) var(--lt) var(--lt) var(--dk);
+}
+
+/* ── Bottom: animation panel ───────────────── */
 .animation-panel {
-    width: 100%;
-    background: #e0d6b9; /* Slightly darker tan */
-    border: 2px solid #808080;
-    box-shadow: 4px 4px 0 #000;
-    padding: 10px;
+  height: 130px; flex-shrink: 0;
+  display: flex; flex-direction: column;
+  border-top: 2px solid;
+  border-color: var(--dk) var(--lt) var(--lt) var(--dk);
+  background: var(--face);
 }
-
+.anim-toolbar {
+  display: flex; align-items: center; gap: 4px;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--dk); flex-shrink: 0;
+}
+.anim-toolbar .toolbar-group { gap: 2px; }
 .timeline {
-    margin-top: 10px;
-    padding: 10px;
-    background: #d6ccaf; /* Even darker tan for contrast */
-    border: 2px solid #808080;
-    height: 120px;
-    overflow-x: auto;
-    position: relative;
+  flex: 1; overflow-x: auto; overflow-y: hidden;
+  background: #808080;
+  padding: 6px;
+  border-top: 1px solid var(--dk);
 }
-
 .frames-container {
-    display: flex;
-    gap: 10px;
-    padding: 10px;
-    min-height: 80px;
+  display: flex; gap: 6px; height: 100%;
+  align-items: center;
 }
-
 .frame-preview {
-    width: 80px;
-    height: 80px;
-    background: #fff;
-    border: 4px solid #fff;
-    box-shadow: 4px 4px 0 #000;
-    cursor: pointer;
-    image-rendering: pixelated;
+  width: 64px; height: 64px; flex-shrink: 0;
+  background: white; cursor: pointer;
+  border: 2px solid;
+  border-color: var(--lt) var(--ddk) var(--ddk) var(--lt);
+  box-shadow: inset -1px -1px 0 var(--dk);
+  image-rendering: pixelated;
 }
-
 .frame-preview.selected {
-    border-color: #0000ca;
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 #000;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 1px var(--navy);
+  transform: scale(1.05);
+}
+.frame-preview.onion { opacity: 0.5; }
+.frame-number {
+  font-size: 8px; color: #fff; text-align: center;
+  text-shadow: 1px 1px 0 #000;
 }
 
-.frame-preview.onion {
-    opacity: 0.5;
+/* ── Status bar ────────────────────────────── */
+.pixos-status {
+  height: 18px; flex-shrink: 0;
+  background: var(--face);
+  border-top: 1px solid var(--dk);
+  display: flex; align-items: center; gap: 4px; padding: 0 4px;
 }
-
-#fpsInput {
-    width: 60px;
-    padding: 8px;
-    background: #242424;
-    color: white;
-    border: 4px solid #fff;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 12px;
-}
-
-label {
-    font-size: 12px;
-    line-height: 40px;
-}
-
-/* Animation control buttons */
-#playAnimation.active {
-    background: #00ca00; /* Green for play */
-}
-
-#pauseAnimation.active {
-    background: #ca7500; /* Orange for pause */
-}
-
-#loopAnimation.active {
-    background: #00caca; /* Cyan for loop */
-}
-
-#onionSkin.active {
-    background: #ca00ca; /* Purple for onion skin */
-}
-
-/* Make inactive animation controls more obvious */
-#playAnimation.inactive,
-#pauseAnimation.inactive {
-    background: #4a4a4a;
-    opacity: 0.7;
-}
-
-/* Export buttons */
-#exportImage, #exportGif {
-    background: #00ca00;
-}
-
-#exportImage:hover, #exportGif:hover {
-    background: #008f00;
+.status-pane {
+  padding: 0 8px; font-size: 10px;
+  border: 1px solid;
+  border-color: var(--dk) var(--lt) var(--lt) var(--dk);
+  height: 14px; line-height: 14px;
 }

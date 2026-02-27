@@ -1,67 +1,223 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>PixOS Editor</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+  <meta charset="UTF-8">
+  <title>PixOS — Pixel Art Studio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="toolbar">
-            <div class="tool-group">
-                <button id="brush" class="active">Brush</button>
-                <button id="eraser">Eraser</button>
-                <button id="fill">Fill</button>
-            </div>
-            <input type="color" id="colorPicker" value="#000000">
-            <button id="clearCanvas">Clear</button>
-            <div class="tool-group">
-                <button id="undo">Undo</button>
-                <button id="redo">Redo</button>
-            </div>
-            <div class="tool-group">
-                <select id="canvasSize">
-                    <option value="16">16x16</option>
-                    <option value="32" selected>32x32</option>
-                    <option value="64">64x64</option>
-                    <option value="128">128x128</option>
-                </select>
-                <button id="zoomIn">Zoom +</button>
-                <button id="zoomOut">Zoom -</button>
-            </div>
-            <div class="tool-group">
-                <button id="exportImage">Export PNG</button>
-                <button id="exportGif">Export GIF</button>
-            </div>
-        </div>
-        <div class="canvas-container">
-            <canvas id="pixelCanvas" width="32" height="32"></canvas>
-            <canvas id="gridOverlay"></canvas>
-        </div>
-        <div class="animation-panel">
-            <div class="toolbar">
-                <div class="tool-group">
-                    <button id="newFrame">New Frame</button>
-                    <button id="duplicateFrame">Duplicate</button>
-                    <button id="deleteFrame">Delete</button>
-                </div>
-                <div class="tool-group">
-                    <button id="playAnimation" class="inactive">Play</button>
-                    <button id="pauseAnimation" class="active">Pause</button>
-                    <button id="loopAnimation" class="active">Loop ON</button>
-                </div>
-                <div class="tool-group">
-                    <label>FPS:</label>
-                    <input type="number" id="fpsInput" value="12" min="1" max="60">
-                    <button id="onionSkin">Onion OFF</button>
-                </div>
-            </div>
-            <div class="timeline">
-                <div id="framesContainer" class="frames-container"></div>
-            </div>
-        </div>
+<div class="pixos-shell">
+
+  <!-- MENUBAR -->
+  <div class="pixos-menu">
+    <span class="pixos-menu-item" onclick="document.getElementById('exportImage').click()">File</span>
+    <span class="pixos-menu-item" onclick="document.getElementById('undo').click()">Edit</span>
+    <span class="pixos-menu-item" id="menu-view">View</span>
+    <span class="pixos-menu-item">Image</span>
+    <span class="pixos-menu-item">Colors</span>
+    <span class="pixos-menu-item">Help</span>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="pixos-toolbar">
+    <div class="toolbar-group">
+      <button class="w95-btn active" id="brush">&#9998; Pen</button>
+      <button class="w95-btn" id="eraser">&#9003; Erase</button>
+      <button class="w95-btn" id="fill">&#9652; Fill</button>
     </div>
-    <script src="script.js"></script>
+    <div class="toolbar-group">
+      <button class="w95-btn" id="undo">&#8592; Undo</button>
+      <button class="w95-btn" id="redo">&#8594; Redo</button>
+      <button class="w95-btn" id="clearCanvas">&#128465; Clear</button>
+    </div>
+    <div class="toolbar-group">
+      <label style="font-size:10px;">Size:</label>
+      <select class="w95-select" id="canvasSize">
+        <option value="16">16x16</option>
+        <option value="32" selected>32x32</option>
+        <option value="64">64x64</option>
+        <option value="128">128x128</option>
+      </select>
+    </div>
+    <div class="toolbar-group">
+      <button class="w95-btn" id="zoomIn">Zoom +</button>
+      <button class="w95-btn" id="zoomOut">Zoom -</button>
+    </div>
+    <div class="toolbar-group">
+      <div class="color-input-wrap">
+        <label>Color:</label>
+        <input type="color" id="colorPicker" value="#000000">
+      </div>
+    </div>
+    <div class="toolbar-group">
+      <button class="w95-btn" id="exportImage">&#128190; PNG</button>
+      <button class="w95-btn" id="exportGif">&#127916; GIF</button>
+    </div>
+  </div>
+
+  <!-- WORKSPACE: tool palette | canvas | color palette -->
+  <div class="pixos-workspace">
+
+    <!-- Left tool palette -->
+    <div class="tool-palette">
+      <button class="tool-btn active" id="tool-brush-icon" title="Pen" onclick="setTool('brush')">&#9998;</button>
+      <button class="tool-btn" id="tool-eraser-icon" title="Eraser" onclick="setTool('eraser')">&#9003;</button>
+      <button class="tool-btn" id="tool-fill-icon" title="Fill" onclick="setTool('fill')">&#9726;</button>
+      <div class="tool-palette-sep"></div>
+      <button class="tool-btn" id="tool-eyedrop" title="Eyedropper" onclick="setTool('eyedrop')">&#128398;</button>
+      <button class="tool-btn" id="tool-line" title="Line" onclick="setTool('line')">&#9135;</button>
+      <div class="tool-palette-sep"></div>
+      <button class="tool-btn" title="Zoom In" onclick="document.getElementById('zoomIn').click()">&#128269;</button>
+      <button class="tool-btn" title="Zoom Out" onclick="document.getElementById('zoomOut').click()">&#128270;</button>
+    </div>
+
+    <!-- Canvas area -->
+    <div class="canvas-area" id="canvas-scroll">
+      <div class="canvas-frame">
+        <canvas id="pixelCanvas" width="32" height="32"></canvas>
+        <canvas id="gridOverlay"></canvas>
+      </div>
+    </div>
+
+    <!-- Right: color palette -->
+    <div class="color-palette">
+      <div class="palette-title">COLORS</div>
+      <div class="color-preview">
+        <div class="preview-label">FG</div>
+        <div class="fg-preview" id="fg-preview" style="background:#000000;"></div>
+        <div class="preview-label">BG</div>
+        <div class="bg-preview" id="bg-preview" style="background:#ffffff;"></div>
+      </div>
+      <div class="swatches" id="swatches"></div>
+    </div>
+  </div>
+
+  <!-- ANIMATION PANEL -->
+  <div class="animation-panel">
+    <div class="anim-toolbar">
+      <div class="toolbar-group">
+        <button class="w95-btn" id="newFrame">+ Frame</button>
+        <button class="w95-btn" id="duplicateFrame">Dupe</button>
+        <button class="w95-btn" id="deleteFrame">Del</button>
+      </div>
+      <div class="toolbar-group">
+        <button class="w95-btn active" id="playAnimation">&#9654; Play</button>
+        <button class="w95-btn" id="pauseAnimation">&#9646;&#9646; Pause</button>
+        <button class="w95-btn active" id="loopAnimation">&#8635; Loop</button>
+      </div>
+      <div class="toolbar-group">
+        <label style="font-size:10px;">FPS:</label>
+        <input type="number" class="w95-input" id="fpsInput" value="12" min="1" max="60">
+        <button class="w95-btn" id="onionSkin">Onion OFF</button>
+      </div>
+    </div>
+    <div class="timeline">
+      <div id="framesContainer" class="frames-container"></div>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="pixos-status">
+    <div class="status-pane" id="status-tool">Tool: Pen</div>
+    <div class="status-pane" id="status-pos">Pos: —</div>
+    <div class="status-pane" id="status-size">Canvas: 32x32</div>
+    <div class="status-pane" style="flex:1;">PixOS v1.0 — Pixel Art Studio</div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+/* ─── Classic W95 color palette ─── */
+var swatchColors = [
+  '#000000','#808080','#800000','#808000',
+  '#008000','#008080','#000080','#800080',
+  '#c0c0c0','#ffffff','#ff0000','#ffff00',
+  '#00ff00','#00ffff','#0000ff','#ff00ff',
+  '#ff8000','#804000','#004040','#004080',
+  '#408080','#8080ff','#ff80ff','#804080',
+  '#ffff80','#80ff80','#80ffff','#8080c0',
+];
+var swatchEl = document.getElementById('swatches');
+swatchColors.forEach(function(c){
+  var s = document.createElement('div');
+  s.className = 'swatch';
+  s.style.background = c;
+  s.title = c;
+  s.addEventListener('click', function(e){
+    document.getElementById('colorPicker').value = c;
+    document.getElementById('colorPicker').dispatchEvent(new Event('input'));
+    document.getElementById('fg-preview').style.background = c;
+    document.querySelectorAll('.swatch').forEach(function(x){ x.classList.remove('selected-fg'); });
+    s.classList.add('selected-fg');
+  });
+  s.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    document.getElementById('bg-preview').style.background = c;
+  });
+  swatchEl.appendChild(s);
+});
+swatchEl.firstChild.classList.add('selected-fg');
+
+/* ─── Tool button helpers ─── */
+var toolBtns = { brush: 'brush', eraser: 'eraser', fill: 'fill', eyedrop: null, line: null };
+function setTool(t){
+  ['brush','eraser','fill'].forEach(function(id){
+    var btn = document.getElementById(id);
+    if(btn) btn.classList.remove('active');
+  });
+  ['tool-brush-icon','tool-eraser-icon','tool-fill-icon'].forEach(function(id){
+    var b = document.getElementById(id); if(b) b.classList.remove('active');
+  });
+  if(t === 'brush' || t === 'eraser' || t === 'fill'){
+    var realBtn = document.getElementById(t);
+    var iconBtn = document.getElementById('tool-'+t+'-icon');
+    if(realBtn){ realBtn.click(); realBtn.classList.add('active'); }
+    if(iconBtn) iconBtn.classList.add('active');
+    document.getElementById('status-tool').textContent = 'Tool: '+t.charAt(0).toUpperCase()+t.slice(1);
+  }
+}
+
+/* Sync toolbar brush/eraser/fill clicks to icon buttons */
+['brush','eraser','fill'].forEach(function(id){
+  var btn = document.getElementById(id);
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    ['brush','eraser','fill'].forEach(function(x){ document.getElementById(x).classList.remove('active'); });
+    ['tool-brush-icon','tool-eraser-icon','tool-fill-icon'].forEach(function(x){ var b=document.getElementById(x); if(b) b.classList.remove('active'); });
+    btn.classList.add('active');
+    var icon = document.getElementById('tool-'+id+'-icon');
+    if(icon) icon.classList.add('active');
+    document.getElementById('status-tool').textContent = 'Tool: '+id.charAt(0).toUpperCase()+id.slice(1);
+  });
+});
+
+/* ─── Canvas mouse position in status bar ─── */
+var pcv = document.getElementById('pixelCanvas');
+if(pcv){
+  pcv.addEventListener('mousemove', function(e){
+    var rect = pcv.getBoundingClientRect();
+    var scaleX = pcv.width / rect.width;
+    var scaleY = pcv.height / rect.height;
+    var x = Math.floor((e.clientX - rect.left) * scaleX);
+    var y = Math.floor((e.clientY - rect.top) * scaleY);
+    document.getElementById('status-pos').textContent = 'Pos: '+x+', '+y;
+  });
+  pcv.addEventListener('mouseleave', function(){ document.getElementById('status-pos').textContent = 'Pos: —'; });
+}
+
+/* ─── Canvas size changes ─── */
+var csEl = document.getElementById('canvasSize');
+if(csEl) csEl.addEventListener('change', function(){
+  document.getElementById('status-size').textContent = 'Canvas: '+csEl.value+'x'+csEl.value;
+});
+
+/* ─── Color picker sync to fg preview ─── */
+var cp = document.getElementById('colorPicker');
+if(cp) cp.addEventListener('input', function(){
+  document.getElementById('fg-preview').style.background = cp.value;
+});
+</script>
 </body>
 </html>
